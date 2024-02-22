@@ -1,0 +1,23 @@
+# Load required library
+library(ggplot2)
+
+# Create the dataset
+unemployment_data <- data.frame(
+  Month = c("Jan", "Feb", "March", "April", "May", "Jun", "July", "August", "Sep", "Oct", "Nov", "Dec"),
+  Economic_Condition = c("Good", "Good", "Good", "Good", "Fair", "Fair", "Good", "Bad", "Fair", "Good", "Bad", "Fair"),
+  Unemployment_Rate = c(10.7, 9.8, 10.2, 11.2, 15.75, 17.8, 19.4, 25.6, 18.6, 15.6, 26.7, 19.5)
+)
+
+# Convert Unemployment_Rate to numeric
+unemployment_data$Unemployment_Rate <- as.numeric(sub("%", "", unemployment_data$Unemployment_Rate))
+
+# Create line plot with data points for Economic Condition
+ggplot(unemployment_data, aes(x = Month, y = Unemployment_Rate, color = Economic_Condition)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Unemployment Rate by Month with Economic Condition Data Points",
+       x = "Month",
+       y = "Unemployment Rate (%)",
+       color = "Economic Condition") +
+  theme_minimal() +
+  theme(legend.position = "top", axis.text.x = element_text(angle = 45, hjust = 1))
