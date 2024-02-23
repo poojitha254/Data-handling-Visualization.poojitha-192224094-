@@ -1,0 +1,26 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Creating a DataFrame from the provided data
+data = {
+    "Month": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    "Unemployment_Rate": [10.7, 9.8, 10.2, 11.2, 15.75, 17.8, 19.4, 25.6, 18.6, 15.6, 26.7, 19.5],
+    "Economic_Condition": ["Good", "Good", "Good", "Good", "Fair", "Fair", "Good", "Bad", "Fair", "Good", "Bad", "Fair"]
+}
+
+df = pd.DataFrame(data)
+
+# Setting Month as index
+df['Month'] = pd.to_datetime(df['Month'], format='%b')
+df.set_index('Month', inplace=True)
+
+# Plotting the original time series and its trend
+plt.figure(figsize=(12, 6))
+plt.plot(df['Unemployment_Rate'], label='Original', color="blue")
+plt.plot(df['Unemployment_Rate'].rolling(window=3).mean(), label='Trend', color="red")  # Using a rolling average for trend
+plt.legend(loc='upper left')
+plt.title('Unemployment Rate Time Series with Trend')
+plt.xlabel('Month')
+plt.ylabel('Unemployment Rate')
+plt.grid(True)
+plt.show()
