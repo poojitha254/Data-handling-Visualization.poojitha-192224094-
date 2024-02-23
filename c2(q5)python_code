@@ -1,0 +1,24 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Sample data
+data = {
+    'Year': [2019, 2020, 2022, 2023, 2024],
+    'Job Sector': ['IT', 'Government Job', 'Customer care', 'Bank', 'Games'],
+    'Job Seekers Rate': [95, 97, 98, 82, 74],
+    'Selection Rate': [25, 12, 45, 20, 35]
+}
+
+# Create DataFrame
+df = pd.DataFrame(data)
+
+# Plotting
+plt.figure(figsize=(10, 6))
+sns.barplot(data=df, x='Year', y='Job Seekers Rate', hue='Job Sector')
+plt.title('Job Seekers Rate by Year and Job Sector')
+plt.ylabel('Job Seekers Rate (%)')
+plt.xlabel('Year')
+plt.legend(title='Job Sector', bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.tight_layout()
+plt.show()
