@@ -1,0 +1,18 @@
+import plotly.express as px
+import pandas as pd
+
+# Sample data
+data = {
+    'Year': [2019, 2020, 2022, 2023, 2024],
+    'Browser': ['Chrome', 'Chrome', 'Chrome', 'Chrome', 'Chrome'],
+    'Users': [22.7, 25.8, 28.7, 30.5, 35.2]  # in millions
+}
+
+# Create DataFrame
+df = pd.DataFrame(data)
+
+# Plotting
+fig = px.line(df, x='Year', y='Users', color='Browser', 
+              labels={'Year': 'Year', 'Users': 'Number of Users (Millions)', 'Browser': 'Browser'},
+              title='Internet Users by Browser Over 5 Years')
+fig.show()
