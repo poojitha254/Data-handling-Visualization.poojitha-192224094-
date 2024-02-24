@@ -1,0 +1,84 @@
+from google.colab import drive
+drive.mount('/content/drive')
+
+# Import pandas
+import pandas as pd
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+file_path = '/content/data.csv'
+df = pd.read_csv(file_path, encoding='latin-1')
+df['Order_Date'] = pd.to_datetime(df['Order_Date'])
+
+# Group by Order_Date and sum sales
+sales_over_time = df.groupby('Order_Date')['Sales'].sum()
+
+# Plotting
+plt.figure(figsize=(10,6))
+plt.plot(sales_over_time, marker='o', linestyle='-')
+plt.title('Sales Over Time')
+plt.xlabel('Date')
+plt.ylabel('Total Sales')
+plt.grid(True)
+plt.show()
+region_ship_mode_counts = df.groupby(['Region', 'Ship_Mode']).size().unstack(fill_value=0)
+
+# Plotting
+plt.figure(figsize=(10, 6))
+region_ship_mode_counts.plot(kind='bar', stacked=False)
+plt.title('Orders by Region and Ship Mode')
+plt.xlabel('Region')
+plt.ylabel('Number of Orders')
+plt.xticks(rotation=45)
+plt.legend(title='Ship Mode')
+plt.show()
+top_cities = df.groupby('City')['Sales'].sum().sort_values(ascending=False).head(10).index
+df_filtered = df[df['City'].isin(top_cities)]
+plt.tight_layout()
+plt.show()
+subcategory_sales = df.groupby('Sub_Category')['Sales'].sum()
+
+# Plotting
+plt.figure(figsize=(10, 6))
+plt.pie(subcategory_sales, startangle=140)
+plt.title('Sales Distribution by Subcategory')
+plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle
+plt.legend(loc='upper left', labels=['%s, %1.1f%%' % (label, subcategory_sales[i] / subcategory_sales.sum() * 100) for i, label in enumerate(subcategory_sales.index)])
+
+plt.show()
+category_subcategory_sales = df.groupby(['Category', 'Sub_Category'])['Sales'].sum().unstack(fill_value=0)
+
+# Plotting
+plt.figure(figsize=(15, 20))
+
+# Plotting stacked bar chart for each category
+category_subcategory_sales.plot(kind='bar', stacked=True, ax=plt.gca())
+plt.title('Sales Distribution by Category and Subcategory')
+plt.xlabel('Category')
+plt.ylabel('Sales')
+plt.xticks(rotation=45)
+plt.legend(title='Subcategory')
+
+plt.tight_layout()
+plt.show()
+df['Order_Date'] = pd.to_datetime(df['Order_Date'])
+
+# Extract year from Order_Date
+df['Year'] = df['Order_Date'].dt.year
+
+# Group by Year and Product_ID, and sum the sales
+yearly_product_sales = df.groupby(['Year', 'Product_ID'])['Sales'].sum()
+
+# Find the top-selling product for each year
+…plt.ylabel('Total Sales')
+plt.xticks(rotation=45)
+plt.legend()
+plt.grid(axis='y')
+plt.tight_layout()
+plt.show()
+df['Order_Date'] = pd.to_datetime(df['Order_Date'])
+
+# Extract year from Order_Date
+df['Year'] = df['Order_Date'].dt.year
+plt.show()
